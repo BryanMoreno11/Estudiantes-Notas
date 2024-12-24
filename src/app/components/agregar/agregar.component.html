@@ -1,0 +1,152 @@
+@if(isOpen){
+    <div class="form-container">
+        <h2>Agregar nuevo estudiante</h2>
+        <form (ngSubmit)="onSubmit()">
+          <div>
+            <label for="codigo">Código</label>
+            <input
+              type="text"
+              id="codigo"
+              [(ngModel)]="oEstudiante.codigo"
+              name="codigo"
+              required
+            />
+          </div>
+          <div>
+            <label for="cedula">Cédula</label>
+            <input
+              type="text"
+              id="cedula"
+              [(ngModel)]="oEstudiante.cedula"
+              name="cedula"
+              required
+            />
+          </div>
+          <div>
+            <label for="nombres">Nombres</label>
+            <input
+              type="text"
+              id="nombres"
+              [(ngModel)]="oEstudiante.nombres"
+              name="nombres"
+              required
+            />
+          </div>
+          <div>
+            <label for="apellidos">Apellidos</label>
+            <input
+              type="text"
+              id="apellidos"
+              [(ngModel)]="oEstudiante.apellidos"
+              name="apellidos"
+              required
+            />
+          </div>
+          <div>
+            <label for="fechaNacimiento">Fecha de Nacimiento</label>
+            <input 
+              type="date"
+              id="fechaNacimiento"
+              [(ngModel)]="oEstudiante.fechaNacimiento"
+              [ngModel]="oEstudiante.fechaNacimiento | date:'yyyy-MM-dd'"
+              name="fechaNacimiento"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="sexo">Sexo</label>
+            <select name="" id="sexo">
+              <option value="Masulino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+            </select>
+          </div>
+
+
+
+          <div>
+            <label for="parcial1">Parcial 1</label>
+            <input  (input)="onChangesParcial()"
+              type="number"
+              id="parcial1"
+              [(ngModel)]="oEstudiante.parcial1"
+              name="parcial1"
+              required
+              min="0"
+              max="10"
+            />
+          </div>
+          <div>
+            <label for="parcial2">Parcial 2</label>
+            <input  (input)="onChangesParcial()"
+              type="number"
+              id="parcial2"
+              [(ngModel)]="oEstudiante.parcial2"
+              name="parcial2"
+              required
+              min="0"
+              max="10"
+            />
+          </div>
+
+          <div>
+            <label for="calificacionFinal" >Calificación Final</label>
+            <input disabled
+              type="number"
+              id="calificacionFinal"
+              [(ngModel)]="oEstudiante.calificacionFinal"
+              name="calificacionFinal"
+              required
+              min="0"
+              max="10"
+            />
+          </div>
+
+
+          @if(oEstudiante.calificacionFinal>=5.5 && oEstudiante.calificacionFinal<7){
+            <div>
+              <label for="examenRecuperacion">Examen de Recuperación</label>
+              <input (input)="onChangesExamenRecuperacion()"
+                type="number" 
+                id="examenRecuperacion"
+                [(ngModel)]="oEstudiante.examenRecuperacion"
+                name="examenRecuperacion"
+                min="0"
+                max="10"
+              />
+            </div>
+          }
+          
+
+          <div>
+            <label for="notaDefinitiva">Nota definitiva</label>
+            <input
+              type="number" disabled
+              id="notaDefinitiva"
+              [(ngModel)]="oEstudiante.notaDefinitiva"
+              name="notaDefinitiva"
+              required
+              min="0"
+              max="10"
+            />
+          </div>
+
+
+
+          <div>
+            <label for="estado">Estado</label>
+            <input
+              type="text" disabled
+              id="estado"
+              [(ngModel)]="oEstudiante.estado"
+              name="estado"
+              required
+            />
+          </div>
+          <button type="submit">Guardar</button>
+          <button type="button" (click)="closeModal()">Cancelar</button>
+        </form>
+      </div>
+}
+
+

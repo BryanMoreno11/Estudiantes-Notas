@@ -1,0 +1,52 @@
+<section>
+    <div class="container">
+        <h1>Gestion de Estudiantes</h1>
+        <div class="botones">
+            <button class="add-btn" (click)="isOpen=true; selectedEstudiante=null"   >Agregar estudiante</button>
+            <button class="add-btn" (click)="mostarPorcentajeAprobacion()">Porcentaje de Aprobación y Desaprobación</button>
+            <button class="add-btn" (click)="mostarPorcentajeAprobacionSexo()">Porcentaje de Aprobación por Sexo</button>
+            <button class="add-btn" (click)="mostrarPromedio()">Promedio</button>
+
+
+        </div>
+        <table class="excel-table">
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre Completo</th>
+                    <th>Parcial 1</th>
+                    <th>Parcial 2</th>
+                    <th>Calificacion Final</th>
+                    <th>Recuperacion</th>
+                    <th>Nota Definitiva</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @for(estudiante of estudiantes; track  $index){
+                    <tr >
+                        <td>{{estudiante.codigo}}</td>
+                        <td>{{estudiante.nombres}} {{estudiante.apellidos}}</td>
+                        <td>{{estudiante.parcial1}}</td>
+                        <td>{{estudiante.parcial2}}</td>
+                        <td>{{estudiante.calificacionFinal}}</td>
+                        <td>{{estudiante.examenRecuperacion}}</td>
+                        <td>{{estudiante.notaDefinitiva}}</td>
+                        <td [ngClass]="{'aprobado': estudiante.estado=='Aprobado','reprobado': estudiante.estado=='Reprobado', }"  >{{estudiante.estado}}</td>
+                        <td> 
+                        <button class="editar" (click)="editEstudiante(estudiante)">Editar</button>
+                        <button class="eliminar" (click)="deleteEstudiante($index)">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section>
+    <app-agregar  [isOpen]="isOpen"  [selectedEstudiante]="selectedEstudiante" (close)="onCloseModal()"  ></app-agregar>
+</section>

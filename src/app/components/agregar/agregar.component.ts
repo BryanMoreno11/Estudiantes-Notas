@@ -109,10 +109,12 @@ export class AgregarComponent {
       return false;
     }
 
-    if(this.listaEstudiantes.verificarCodigoRepetido(this.oEstudiante.codigo)==true){
+    if(this.listaEstudiantes.verificarCodigoRepetido(this.oEstudiante.codigo)==true && this.selectedEstudiante==null){
       window.alert("El codigo ya existe");
       return false;
     }
+
+    
 
 
     if(this.oEstudiante.cedula==""){

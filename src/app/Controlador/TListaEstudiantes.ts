@@ -30,11 +30,11 @@ export class TListaEstudiantes {
     updateEstudiante(est: Estudiante) {
         const currentEstudiantes = this.estudiantesSubject.value;
         const index = currentEstudiantes.findIndex(e => e.codigo === est.codigo);
-        
-        if (index !== -1 && this.verificarCodigoRepetido(est.codigo, index)==false) {
+        if (index !== -1 ) {
             this.ListaEstudiantes[index] = est;
             this.estudiantesSubject.next(this.ListaEstudiantes);
         } else {
+            alert("Ingrese un codigo valido");
             console.error('Estudiante no encontrado');
         }
     }
@@ -44,18 +44,14 @@ export class TListaEstudiantes {
         this.estudiantesSubject.next(this.ListaEstudiantes);
     }
 
-    verificarCodigoRepetido(codigo: number, index?: number): boolean {
+    verificarCodigoRepetido(codigo: number): boolean {
         const currentEstudiantes = this.estudiantesSubject.value;
         let elementoRepetido = currentEstudiantes.find(
             (est: Estudiante) => est.codigo == codigo
         );
-        
-        if (elementoRepetido && typeof index == "number" &&
-            this.ListaEstudiantes.indexOf(elementoRepetido) != index) {
+        if(elementoRepetido){
             return true;
-        } else if (elementoRepetido && index == null) {
-            return true;
-        } else {
+        }else{
             return false;
         }
     }
@@ -114,6 +110,13 @@ export class TListaEstudiantes {
         }
         let porcentajeAprobadosMasculinos= Number(((aprobadosMasculinos/totalMasculinos)*100).toFixed(2));
         let porcentajeAprobadosFemeninos= Number(((aprobadosFemeninos/totalFemeninos)*100).toFixed(2));
+
+        if(isNaN(porcentajeAprobadosFemeninos)){
+            porcentajeAprobadosFemeninos=0;
+        }
+        if(isNaN(porcentajeAprobadosMasculinos)){
+            porcentajeAprobadosMasculinos=0;
+        }
 
         return {porcentajeAprobadosMasculinos, porcentajeAprobadosFemeninos};
         

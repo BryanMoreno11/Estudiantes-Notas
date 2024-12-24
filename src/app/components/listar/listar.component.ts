@@ -31,7 +31,10 @@ export class ListarComponent {
    }
    deleteEstudiante(index:number)
    {
-      this.OLista.deleteEstudiante(index);
+       const confirmar = window.confirm('¿Estás seguro de que deseas eliminar este estudiante?');
+    if (confirmar) {
+        this.OLista.deleteEstudiante(index);
+    }
    }
    onCloseModal()
    {
@@ -40,26 +43,42 @@ export class ListarComponent {
    }
 
    mostarPorcentajeAprobacion(){
+     if(this.estudiantes.length>0){
       let {porcentajeAprobados, porcentajeReprobados}= this.OLista.porcentajeAprobacion();
       alert(`El porcentaje de aprobados es: ${porcentajeAprobados}% y el porcentaje de reprobados es: ${porcentajeReprobados}%`);
+     }else{
+      alert("No hay estudiantes registrados");
+     }
+     
       
    }
 
    mostarPorcentajeAprobacionSexo(){
-      let {porcentajeAprobadosMasculinos, porcentajeAprobadosFemeninos}= this.OLista.porcentajeAprobacionporSexo();
-      alert(`El porcentaje de aprobación del sexo masculino es: ${porcentajeAprobadosMasculinos}% y el porcentaje de aprobación del sexo femenino es: ${porcentajeAprobadosFemeninos}%`);
+      if(this.estudiantes.length>0){
+         let {porcentajeAprobadosMasculinos, porcentajeAprobadosFemeninos}= this.OLista.porcentajeAprobacionporSexo();
+         alert(`El porcentaje de aprobación del sexo masculino es: ${porcentajeAprobadosMasculinos}% y el porcentaje de aprobación del sexo femenino es: ${porcentajeAprobadosFemeninos}%`);
+   
+
+      }else{
+         alert("No hay estudiantes registrados");
+      }
 
    }
 
    mostrarPromedio(){
-      let promedio= this.OLista.calcularPromedio();
-      let estudiantesNotaMayorPromedio= this.OLista.obtenerEstudiantesNotaMayorPromedio();
-      let estudiantesNotaMayorPromedioTexto="";
+      if(this.estudiantes.length>0){
+         let promedio= this.OLista.calcularPromedio();
+         let estudiantesNotaMayorPromedio= this.OLista.obtenerEstudiantesNotaMayorPromedio();
+         let estudiantesNotaMayorPromedioTexto="";
 
-      for(let estudiante of estudiantesNotaMayorPromedio){
-         estudiantesNotaMayorPromedioTexto += `${estudiante.nombres} ${estudiante.apellidos}: ${estudiante.notaDefinitiva} \n`;
-      }
+         for(let estudiante of estudiantesNotaMayorPromedio){
+            estudiantesNotaMayorPromedioTexto += `${estudiante.nombres} ${estudiante.apellidos}: ${estudiante.notaDefinitiva} \n`;
+         }
       alert(`El promedio de notas es: ${promedio} \nEstudiantes con nota mayor al promedio: ${estudiantesNotaMayorPromedioTexto}`);
+      }else{
+         alert("No hay estudiantes registrados");
+      }
+     
    }
 
 

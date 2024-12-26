@@ -1,6 +1,7 @@
 import { BehaviorSubject } from "rxjs";
 import { Estado, Estudiante } from "../Entidades/Estudiante";
 import { Injectable } from '@angular/core';
+import Swal from "sweetalert2";
 
 @Injectable({
     providedIn: 'root',
@@ -33,9 +34,11 @@ export class TListaEstudiantes {
         if (index !== -1 ) {
             this.ListaEstudiantes[index] = est;
             this.estudiantesSubject.next(this.ListaEstudiantes);
+            return true;
         } else {
-            alert("Ingrese un codigo valido");
+            this.imprimirMensaje("Error","Ingrese un código de estudiante válido", "error");
             console.error('Estudiante no encontrado');
+            return false;
         }
     }
 
@@ -134,6 +137,40 @@ export class TListaEstudiantes {
         let estudiantesNotaMayorPromedio = this.ListaEstudiantes.filter(est => est.notaDefinitiva > promedio);
         return estudiantesNotaMayorPromedio;
     }
+
+
+    imprimirMensaje(title:string, text:string, icon:any) {
+        Swal.fire({
+            title: title,
+            html: text.replace(/\n/g, '<br>'),
+            icon: icon,
+            confirmButtonText: 'Aceptar'
+        });
+    }
+
+    async imprimirMensajeConfirmacion(title: string, text: string, icon: any): Promise<boolean> {
+        try {
+            const result = await Swal.fire({
+                title: title,
+                text: text,
+                icon: icon,
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonText: "Aceptar",
+            });
+    
+            if (result.isConfirmed) {
+                await Swal.fire("Proceso exitoso", "", "success");
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('Error en el mensaje de confirmación:', error);
+            return false;
+        }
+    }
+
+
 
     
 

@@ -93,56 +93,101 @@ export class AgregarComponent {
 
     if(this.validaciones()){
       if (this.selectedEstudiante) {
-        this.listaEstudiantes.updateEstudiante(this.oEstudiante);
+        let modificar=this.listaEstudiantes.updateEstudiante(this.oEstudiante);
+        if(modificar){
+          this.listaEstudiantes.imprimirMensaje("Estudiante actualizado","El estudiante ha sido actualizado correctamente", "success");
+        }
       } else {
         this.listaEstudiantes.addEstudiante(this.oEstudiante);
+        this.listaEstudiantes.imprimirMensaje("Estudiante agregado","El estudiante ha sido agregado correctamente", "success");
       }
       this.closeModal();
     }
    
   }
 
-  validaciones(){
-
-    if(this.oEstudiante.codigo<=0){
-      window.alert("El codigo no puede ser menor a 0");
-      return false;
+  validaciones() {
+    if (this.oEstudiante.codigo <= 0) {
+        this.listaEstudiantes.imprimirMensaje(
+            "Error de validación",
+            "El código no puede ser menor a 0",
+            "error"
+        );
+        return false;
     }
 
-    if(this.listaEstudiantes.verificarCodigoRepetido(this.oEstudiante.codigo)==true && this.selectedEstudiante==null){
-      window.alert("El codigo ya existe");
-      return false;
+    if (this.listaEstudiantes.verificarCodigoRepetido(this.oEstudiante.codigo) && this.selectedEstudiante == null) {
+        this.listaEstudiantes.imprimirMensaje(
+            "Error de validación",
+            "El código ya existe",
+            "error"
+        );
+        return false;
     }
 
-    
+    if (this.oEstudiante.cedula == "") {
+        this.listaEstudiantes.imprimirMensaje(
+            "Error de validación",
+            "La cédula no puede ser vacía",
+            "error"
+        );
+        return false;
+    }
 
+    if (this.oEstudiante.nombres == "") {
+        this.listaEstudiantes.imprimirMensaje(
+            "Error de validación",
+            "El nombre no puede ser vacío",
+            "error"
+        );
+        return false;
+    }
 
-    if(this.oEstudiante.cedula==""){
-      window.alert("La cedula no puede ser vacia");
-      return false;
+    if (this.oEstudiante.apellidos == "") {
+        this.listaEstudiantes.imprimirMensaje(
+            "Error de validación",
+            "El apellido no puede ser vacío",
+            "error"
+        );
+        return false;
     }
-    if(this.oEstudiante.nombres==""){
-      window.alert("El nombre no puede ser vacio");
-      return false;
+
+    if (typeof(this.oEstudiante.parcial1) != "number" || 
+        this.oEstudiante.parcial1 < 0 || 
+        this.oEstudiante.parcial1 > 10) {
+        this.listaEstudiantes.imprimirMensaje(
+            "Error de validación",
+            "Ingrese un valor válido para el parcial 1 (entre 0 y 10)",
+            "error"
+        );
+        return false;
     }
-    if(this.oEstudiante.apellidos==""){
-      window.alert("El apellido no puede ser vacio");
-      return false;
+
+    if (typeof(this.oEstudiante.parcial2) != "number" || 
+        this.oEstudiante.parcial2 < 0 || 
+        this.oEstudiante.parcial2 > 10) {
+        this.listaEstudiantes.imprimirMensaje(
+            "Error de validación",
+            "Ingrese un valor válido para el parcial 2 (entre 0 y 10)",
+            "error"
+        );
+        return false;
     }
-   
-    if(this.oEstudiante.parcial1<0 || this.oEstudiante.parcial1>10){
-      window.alert("Ingrese un valor valido para el parcial 1");
-      return false;
+
+    if (this.oEstudiante.calificacionFinal >= 5.5 && 
+        this.oEstudiante.calificacionFinal < 7 && 
+        (typeof(this.oEstudiante.examenRecuperacion) != "number" || 
+         this.oEstudiante.examenRecuperacion == null || 
+         this.oEstudiante.examenRecuperacion < 0 || 
+         this.oEstudiante.examenRecuperacion > 10)) {
+        this.listaEstudiantes.imprimirMensaje(
+            "Error de validación",
+            "Ingrese una nota válida para el examen de recuperación (entre 0 y 10)",
+            "error"
+        );
+        return false;
     }
-    if(this.oEstudiante.parcial2<0 || this.oEstudiante.parcial2>10){
-      window.alert("Ingrese un valor valido para el parcial 2");
-      return false
-  }
-    if(this.oEstudiante.calificacionFinal>=5.5 && this.oEstudiante.calificacionFinal<7 && (this.oEstudiante.examenRecuperacion==null || this.oEstudiante.examenRecuperacion<0 || this.oEstudiante.examenRecuperacion>10)){
-      window.alert("Ingrese una nota valida para el examen de recuperacion");
-      return false;
-    }
+
     return true;
 }
-
 }

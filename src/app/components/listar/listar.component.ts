@@ -29,13 +29,16 @@ export class ListarComponent {
       this.selectedEstudiante={...oEstudiante};
       this.isOpen=true;
    }
-   deleteEstudiante(index:number)
+
+   async deleteEstudiante(index:number)
    {
-       const confirmar = window.confirm('¿Estás seguro de que deseas eliminar este estudiante?');
-    if (confirmar) {
-        this.OLista.deleteEstudiante(index);
-    }
+      const confirmar = await this.OLista.imprimirMensajeConfirmacion("Eliminar Estudiante", "¿Estás seguro de que deseas eliminar este estudiante?", "warning");
+      if (confirmar) {
+         console.log('Estudiante eliminado');
+         this.OLista.deleteEstudiante(index);
+      }
    }
+
    onCloseModal()
    {
       this.isOpen= false;
@@ -45,9 +48,10 @@ export class ListarComponent {
    mostarPorcentajeAprobacion(){
      if(this.estudiantes.length>0){
       let {porcentajeAprobados, porcentajeReprobados}= this.OLista.porcentajeAprobacion();
-      alert(`El porcentaje de aprobados es: ${porcentajeAprobados}% y el porcentaje de reprobados es: ${porcentajeReprobados}%`);
+      let texto=`El porcentaje de aprobados es: ${porcentajeAprobados}% y el porcentaje de reprobados es: ${porcentajeReprobados}%`;
+      this.OLista.imprimirMensaje("Aprobación de Estudiantes", texto, "success");
      }else{
-      alert("No hay estudiantes registrados");
+      this.OLista.imprimirMensaje("Aprobación de Estudiantes", "No hay estudiantes registrados", "error");
      }
      
       
@@ -56,11 +60,10 @@ export class ListarComponent {
    mostarPorcentajeAprobacionSexo(){
       if(this.estudiantes.length>0){
          let {porcentajeAprobadosMasculinos, porcentajeAprobadosFemeninos}= this.OLista.porcentajeAprobacionporSexo();
-         alert(`El porcentaje de aprobación del sexo masculino es: ${porcentajeAprobadosMasculinos}% y el porcentaje de aprobación del sexo femenino es: ${porcentajeAprobadosFemeninos}%`);
-   
-
+         let texto=`El porcentaje de aprobación del sexo masculino es: ${porcentajeAprobadosMasculinos}% y el porcentaje de aprobación del sexo femenino es: ${porcentajeAprobadosFemeninos}%`;
+         this.OLista.imprimirMensaje("Aprobación de Estudiantes por Sexo", texto, "success");
       }else{
-         alert("No hay estudiantes registrados");
+         this.OLista.imprimirMensaje("Aprobación de Estudiantes por Sexo", "No hay estudiantes registrados", "error");
       }
 
    }
@@ -74,9 +77,9 @@ export class ListarComponent {
          for(let estudiante of estudiantesNotaMayorPromedio){
             estudiantesNotaMayorPromedioTexto += `${estudiante.nombres} ${estudiante.apellidos}: ${estudiante.notaDefinitiva} \n`;
          }
-      alert(`El promedio de notas es: ${promedio} \nEstudiantes con nota mayor al promedio: ${estudiantesNotaMayorPromedioTexto}`);
+         let texto = `El promedio de notas es: ${promedio}.\nEstudiantes con nota mayor al promedio:\n${estudiantesNotaMayorPromedioTexto}`;         this.OLista.imprimirMensaje("Promedio de Notas", texto, "success");
       }else{
-         alert("No hay estudiantes registrados");
+        this.OLista.imprimirMensaje("Promedio de Notas", "No hay estudiantes registrados", "error");
       }
      
    }
